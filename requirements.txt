@@ -6,5 +6,5 @@ python-decouple
 dj_config_url
 django_filter
 drf_yasg
-celery[radis]
+celery[redis]
 psycopg2-binary

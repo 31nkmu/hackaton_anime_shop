@@ -28,4 +28,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         password = validated_data['password']
         user = User.objects.create_user(email=email,
                                         password=password)
+        from applications.account.tasks import send_activation_link
+        send_activation_link.delay(email, user.activation_code)
         return user
