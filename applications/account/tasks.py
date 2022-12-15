@@ -12,3 +12,13 @@ def send_activation_link(email, activation_code):
         'karimovbillal20002@gmail.com',
         [email]
     )
+
+
+@app.task
+def send_code(email, activation_code):
+    send_mail(
+        'Активационный код для смены пароля',
+        activation_code,
+        'karimovbillal20002@gmail.com',
+        [email]
+    )
