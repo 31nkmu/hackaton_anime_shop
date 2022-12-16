@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from applications.likes.models import Like
+from applications.likes.services import is_fan
 from applications.product.models import Product, Image
 
 
@@ -26,8 +28,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
+        user = self.context.get('request').user
         images = []
         for i in rep['images']:
             images.append(i['image'])
         rep['images'] = images
+        rep['likes'] = Like.objects.filter(product=instance, like=True).count()
+        rep['is_fan'] = is_fan(user=user, obj=instance)
         return rep
