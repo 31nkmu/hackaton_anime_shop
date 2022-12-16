@@ -11,7 +11,7 @@ class LikeMixin:
         obj = self.get_object()
         user = request.user
         status_ = services.like_unlike(user=user, obj=obj)
-        return Response({'status': status_}, status=status.HTTP_200_OK)
+        return Response({'status': status_, 'user': user.email}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['GET'])
     def fans(self, request, pk=None):

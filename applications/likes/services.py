@@ -14,11 +14,9 @@ def like_unlike(user, obj) -> str:
     like_obj, is_created = Like.objects.get_or_create(user=user, product=obj)
     like_obj.like = not like_obj.like
     like_obj.save()
-    print(like_obj.like)
-    status_ = 'liked'
     if not like_obj.like:
-        status_ = 'unliked'
-    return status_
+        return 'лайк убран'
+    return 'лайк поставлен'
 
 
 def is_fan(user, obj) -> bool:
@@ -27,8 +25,6 @@ def is_fan(user, obj) -> bool:
     :param user: пользователь, которого проверяем
     :param obj: продукт, которому пользователь поставил лайк (или не поставил)
     """
-    # print(user)
-    # print(obj)
     try:
         like = Like.objects.filter(user=user, product=obj)
         if like.exists() and like[0].like:

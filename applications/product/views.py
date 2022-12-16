@@ -8,6 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 from applications.likes.mixins import LikeMixin
 from applications.product.models import Product
 from applications.product.serializers import ProductSerializer
+from applications.ratings.mixins import RatingMixin
 
 
 class LargeResultsSetPagination(PageNumberPagination):
@@ -16,7 +17,7 @@ class LargeResultsSetPagination(PageNumberPagination):
     max_page_size = 10000
 
 
-class ProductViewSet(LikeMixin, ModelViewSet):
+class ProductViewSet(LikeMixin, RatingMixin, ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)

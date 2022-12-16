@@ -1,8 +1,11 @@
+from django.db.models import Avg
 from rest_framework import serializers
 
 from applications.likes.models import Like
 from applications.likes.services import is_fan
 from applications.product.models import Product, Image
+from applications.ratings.models import Rating
+from applications.ratings.services import is_reviewer
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -34,5 +37,11 @@ class ProductSerializer(serializers.ModelSerializer):
             images.append(i['image'])
         rep['images'] = images
         rep['likes'] = Like.objects.filter(product=instance, like=True).count()
+        rating = Rating.objects.filter(product=instance).aggregate(Avg('rating'))['rating__avg']
+        if rating:
+            rep['rating'] = rating
+        else:
+            rep['rating'] = 0
         rep['is_fan'] = is_fan(user=user, obj=instance)
+        rep['is_reviewer'] = is_reviewer(user=user, obj=instance)
         return rep
