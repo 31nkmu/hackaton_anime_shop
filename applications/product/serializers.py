@@ -1,6 +1,9 @@
 from django.db.models import Avg
 from rest_framework import serializers
 
+from applications.comments.models import Comment
+from applications.comments.serializers import CommentSerializer
+from applications.comments.services import is_commented
 from applications.likes.models import Like
 from applications.likes.services import is_fan
 from applications.product.models import Product, Image
@@ -23,7 +26,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         request = self.context.get('request')
+        category = validated_data.pop('category')
         product = Product.objects.create(**validated_data)
+        product.category.set(category)
         files = request.FILES
         for image in files.getlist('images'):
             Image.objects.create(product=product, image=image)
@@ -42,6 +47,11 @@ class ProductSerializer(serializers.ModelSerializer):
             rep['rating'] = rating
         else:
             rep['rating'] = 0
+        comments = Comment.objects.filter(product=instance)
+        comments = CommentSerializer(comments, many=True).data
+        comments = [{'user': i['user'], 'comment': i['comment']} for i in comments]
+        rep['comments'] = comments
         rep['is_fan'] = is_fan(user=user, obj=instance)
         rep['is_reviewer'] = is_reviewer(user=user, obj=instance)
+        rep['is_commented'] = is_commented(user=user, obj=instance)
         return rep
