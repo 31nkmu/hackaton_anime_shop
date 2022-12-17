@@ -19,6 +19,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.email')
     images = ImageSerializer(many=True, required=False)
 
     class Meta:
