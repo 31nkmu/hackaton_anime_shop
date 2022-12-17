@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -22,6 +23,13 @@ class OrderViewSet(ModelViewSet):
         queryset = super().get_queryset()
         res = queryset.filter(user=user)
         return res
+
+    @action(detail=False, methods=['GET'])
+    def order_list(self, request):
+        user = request.user
+        order_list = user.orders.all()
+        serializer = OrderSerializer(order_list, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class OrderConfirm(APIView):
