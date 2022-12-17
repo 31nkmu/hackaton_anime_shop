@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'applications.ratings',
     'applications.comments',
     'applications.favorites',
+    'applications.orders',
 ]
 
 MIDDLEWARE = [
