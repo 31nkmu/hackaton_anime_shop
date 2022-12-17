@@ -25,7 +25,7 @@ def is_favorite(obj, user) -> bool:
     :param user: пользователь
     """
     try:
-        return Favorite.objects.filter(product=obj, user=user).exists()
+        return Favorite.objects.filter(product=obj, user=user, is_favorite=True).exists()
     except TypeError:
         return False
 
@@ -36,7 +36,7 @@ def get_favorites(user) -> List[dict]:
     :param user: пользователь который добавил в избранное
     """
     try:
-        products = Favorite.objects.filter(user=user)
+        products = Favorite.objects.filter(user=user, is_favorite=True)
         serializer = FavoriteSerializer(products, many=True)
         return serializer.data
     except TypeError:

@@ -13,7 +13,7 @@ class Order(models.Model):
     order_confirm = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=129)
-    confirm_code = models.CharField(max_length=129, default='', null=True)
+    confirm_code = models.CharField(max_length=129, default='', null=True, blank=True)
 
     def create_confirm_code(self):
         import uuid
