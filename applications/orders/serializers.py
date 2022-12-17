@@ -10,7 +10,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        exclude = ['confirm_code']
+        exclude = ['confirm_code', 'order_confirm']
 
     def create(self, validated_data):
         order = Order.objects.create(**validated_data)
@@ -24,3 +24,10 @@ class OrderSerializer(serializers.ModelSerializer):
         product = Product.objects.get(id=rep['product']).title
         rep['product'] = product
         return rep
+
+    def validate(self, attrs):
+        product = attrs['product']
+        count = attrs['count']
+        if product.count < count:
+            raise serializers.ValidationError(f'вы не можете заказать такое количество, осталось {product.count}')
+        return attrs

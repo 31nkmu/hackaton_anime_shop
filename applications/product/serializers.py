@@ -24,7 +24,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['status']
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -38,6 +38,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         request = self.context.get('request')
+        instance.status = 'on_sale'
         files = request.FILES
         for image in files.getlist('images'):
             Image.objects.create(product=instance, image=image)
@@ -46,6 +47,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         user = self.context.get('request').user
+        rep['status'] = instance.status
         images = []
         for i in rep['images']:
             images.append(i['image'])

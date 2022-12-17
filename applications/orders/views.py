@@ -39,6 +39,13 @@ class OrderConfirm(APIView):
             order = Order.objects.get(confirm_code=confirm_code)
             order.order_confirm = True
             order.confirm_code = ''
+            ordered_count = order.count
+            product = order.product
+            count = product.count
+            product.count = count - ordered_count
+            if product.count == 0:
+                product.status = 'out_of_stock'
+            product.save()
             order.save()
             return Response({'msg': 'заказ подтвержден'}, status=status.HTTP_200_OK)
         except Order.DoesNotExist:

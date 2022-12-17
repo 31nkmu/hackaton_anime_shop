@@ -18,10 +18,11 @@ class Product(models.Model):
         ('out_of_stock', 'out of stock')
     )
     title = models.CharField(max_length=50)
-    price = models.DecimalField(default=0, decimal_places=2, max_digits=10)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
     status = models.CharField(max_length=50, choices=STATUS, default='on_sale')
     category = models.ManyToManyField(Category, related_name='products')
     user = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE)
+    count = models.PositiveIntegerField(default=100)
 
     def __str__(self):
         return self.title
