@@ -181,6 +181,15 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_USE_TLS = True
 
-
 BROKER_URL = 'redis://127.0.0.1:6379/0'
 BROKER_TRANSPORT = 'redis'
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        "api_key": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
