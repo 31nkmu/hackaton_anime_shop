@@ -22,6 +22,7 @@ class OrderSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         product = Product.objects.get(id=rep['product']).title
+        rep['order_confirm'] = instance.order_confirm
         rep['product'] = product
         return rep
 

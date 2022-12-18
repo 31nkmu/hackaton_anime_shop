@@ -38,6 +38,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         request = self.context.get('request')
+        request_user = request.user
+        user = instance.user
+        if request_user != user:
+            raise serializers.ValidationError('Только владелец продукта может его изменить')
         instance.status = 'on_sale'
         files = request.FILES
         for image in files.getlist('images'):

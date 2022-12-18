@@ -24,13 +24,6 @@ class OrderViewSet(ModelViewSet):
         res = queryset.filter(user=user)
         return res
 
-    @action(detail=False, methods=['GET'])
-    def order_list(self, request):
-        user = request.user
-        order_list = user.orders.all()
-        serializer = OrderSerializer(order_list, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 class OrderConfirm(APIView):
     @staticmethod

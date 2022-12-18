@@ -30,7 +30,7 @@ class ProductViewSet(LikeMixin, RatingMixin, CommentMixin, FavoriteMixin, ModelV
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
     filterset_fields = ['category']
     search_fields = ['title']
-    ordering_fields = ['price']
+    ordering_fields = ['id', 'price']
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

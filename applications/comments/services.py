@@ -1,5 +1,7 @@
 from typing import List
 
+from rest_framework.exceptions import ValidationError
+
 from applications.comments.models import Comment
 from applications.comments.serializers import CommentSerializer
 
