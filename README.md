@@ -5,7 +5,7 @@ ___
     * ` git clone git@github.com:31nkmu/hackaton_anime_shop.git `
 
 * Create virtual environment using command
-    * ` pytho3 -m venv <name of your environment> `
+    * ` python3 -m venv <name of your environment> `
 
 * Activate your virtual environment
     * ` source/<name of your environment>/bin/activate `
