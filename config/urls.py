@@ -24,7 +24,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
         default_version='v1',
-        description="Test description",
+        description="Online anime shop",
     ),
     public=True,
 )
